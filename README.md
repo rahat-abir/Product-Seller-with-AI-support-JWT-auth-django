@@ -10,6 +10,21 @@ A modern Django web application with JWT authentication, featuring a beautiful r
 - **Responsive Design**: Works perfectly on all devices
 - **User Management**: Registration, login, logout functionality
 
+## Screenshots
+**Home**
+<img width="1918" height="917" alt="Screenshot_8" src="https://github.com/user-attachments/assets/6d6b71fd-cfd5-40e2-a443-8eba4773a8b9" />
+**AI chat page**
+<img width="1919" height="891" alt="Screenshot_7" src="https://github.com/user-attachments/assets/72d10b9a-383a-428d-ac1f-5a9ef5e7e861" />
+**login**
+<img width="1918" height="648" alt="Screenshot_1" src="https://github.com/user-attachments/assets/227ddbca-f276-4a7b-869b-93b1ef57ab5c" />
+**Signup**
+<img width="1919" height="896" alt="Screenshot_2" src="https://github.com/user-attachments/assets/5a6ed35a-5ed7-47f8-8d9a-a26044efac56" />
+**AI chat backend**
+<img width="1465" height="543" alt="Screenshot_3" src="https://github.com/user-attachments/assets/5e894140-01d9-4d3c-ba01-e124dce9114f" />
+
+
+
+
 ## Navigation
 
 The application includes a navigation bar with 4 main options:
