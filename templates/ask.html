@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Seller - Abir_Product_with n8n AI{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">
+            <i class="fas fa-comments me-2"></i>Contact Seller
+          </h4>
+        </div>
+        <div class="card-body">
+          <!-- Chat Messages Container -->
+          <div id="chat-messages"
+               class="border rounded p-3 mb-3"
+               style="height: 600px; overflow-y: auto; background-color: #f8f9fa;">
+            <!-- Default Welcome Message -->
+            <div class="message received mb-3">
+              <div class="avatar me-2">
+                <i class="fas fa-headset text-primary fs-4"></i>
+              </div>
+              <div class="message-content">
+                <div class="message-bubble bg-primary text-white p-3 rounded">
+                  <strong>Support Team:</strong><br>
+                  Welcome to Support, How may we help you?
+                </div>
+                <small class="text-muted">Just now</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Message Input Form -->
+          <form id="chat-form" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+              <input type="text"
+                     id="message-input"
+                     name="message"
+                     class="form-control"
+                     placeholder="Type your message here..."
+                     required>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Send
+              </button>
+            </div>
+          </form>
+
+          <!-- Typing Indicator -->
+          <div id="typing-indicator" class="mt-3" style="display: none;">
+            <div class="d-flex align-items-center">
+              <div class="avatar me-2">
+                <i class="fas fa-headset text-primary fs-4"></i>
+              </div>
+              <div class="typing-bubble bg-light p-2 rounded">
+                <span class="typing-dots">
+                  <span>.</span><span>.</span><span>.</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.card-body -->
+      </div><!-- /.card -->
+    </div><!-- /.col -->
+  </div><!-- /.row -->
+</div><!-- /.container -->
+
+<style>
+  /* Base bubble styling */
+.message-bubble {
+  max-width: 75%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+/* Layout container */
+.message {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+/* ← NEW: let the content stretch out so it doesn’t collapse to one letter per line */
+.message-content {
+  flex: 1;
+}
+
+/* Received (blue) */
+.message.received {
+  justify-content: flex-start;
+}
+.message.received .message-bubble {
+  background-color: #007bff !important;
+  color: #fff;
+  margin-right: auto;
+  text-align: left;
+}
+
+/* Sent (green) */
+.message.sent {
+  justify-content: flex-end;
+}
+.message.sent .message-bubble {
+  background-color: #28a745 !important;
+  color: #fff;
+  margin-left: auto;
+  text-align: left;
+}
+
+/* Avatar spacing */
+.message .avatar {
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+}
+
+/* Typing animation (no change) */
+.typing-dots span {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin: 0 2px;
+  border-radius: 50%;
+  background-color: #6c757d;
+  animation: typing 1.4s infinite;
+}
+.typing-dots span:nth-child(1) { animation-delay: 0s; }
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing {
+  0%, 80%, 100%   { opacity: 0.3; }
+  40%             { opacity: 1; }
+}
+
+.message.sent .message-content small.text-muted {
+  display: block;       
+  text-align: right;    
+  margin-top: 0.25rem;  
+}
+
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const chatForm = document.getElementById('chat-form');
+    const messageInput = document.getElementById('message-input');
+    const chatMessages = document.getElementById('chat-messages');
+    const typingIndicator = document.getElementById('typing-indicator');
+
+    
+
+
+    const n8nWebhookURL = "Your_Webhook_URL_here";
+
+    chatForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const message = messageInput.value.trim();
+      if (!message) return;
+
+      // Show user message
+      addMessage(message, 'sent');
+      messageInput.value = '';
+
+      // Show typing
+      typingIndicator.style.display = 'block';
+
+      try {
+        const payload = {
+          message,
+          timestamp: new Date().toISOString(),
+          email: "{{ user.email|default:'guest@example.com' }}"
+        };
+
+        const res = await fetch(n8nWebhookURL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        typingIndicator.style.display = 'none';
+        if (res.ok && data?.response) {
+          addMessage(data.response, 'received');
+        } else {
+          addMessage('We received your message but couldn’t generate a reply.', 'received');
+        }
+      } catch (err) {
+        console.error('Error sending message to n8n:', err);
+        typingIndicator.style.display = 'none';
+        addMessage('Something went wrong while contacting support. Please try again later.', 'received');
+      }
+    });
+
+    function addMessage(text, type) {
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `message ${type}`;
+
+      const time = new Date().toLocaleTimeString();
+      const safeText = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      msgDiv.innerHTML = `
+        <div class="avatar me-2">
+          <i class="fas fa-${type === 'sent' ? 'user' : 'headset'} 
+             text-${type === 'sent' ? 'success' : 'primary'} fs-4"></i>
+        </div>
+        <div class="message-content">
+          <div class="message-bubble p-3 rounded">
+            <strong>${type === 'sent' ? 'You:' : 'Support Team:'}</strong><br>
+            ${safeText}
+          </div>
+          <small class="text-muted">${time}</small>
+        </div>
+      `;
+
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  });
+</script>
+{% endblock %}

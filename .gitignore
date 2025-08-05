@@ -1,0 +1,3 @@
+#has webhook URL
+.env
+venv/

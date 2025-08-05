@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Abir_Product_with n8n AI{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section text-center py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold text-primary mb-4">
+                    <i class="fas fa-robot me-3"></i>
+                    Abir_Product_with n8n AI
+                </h1>
+                <p class="lead mb-4">
+                    Experience the future of AI-powered product management and automation. 
+                    Connect with intelligent systems that streamline your workflow and enhance productivity.
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{% url 'main:contact_seller' %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-envelope me-2"></i>Contact Seller
+                    </a>
+                    <a href="{% url 'main:products' %}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-box me-2"></i>View Products
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="features-section py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Why Choose Our AI Platform?</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-brain fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">AI-Powered Solutions</h5>
+                        <p class="card-text">
+                            Advanced artificial intelligence that learns and adapts to your specific needs, 
+                            providing intelligent automation and decision-making capabilities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-cogs fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Smart Automation</h5>
+                        <p class="card-text">
+                            Streamline your workflow with intelligent automation that handles repetitive tasks 
+                            and optimizes your business processes for maximum efficiency.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon mb-3">
+                            <i class="fas fa-chart-line fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Real-time Analytics</h5>
+                        <p class="card-text">
+                            Get instant insights into your operations with real-time analytics and 
+                            comprehensive reporting that helps you make data-driven decisions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="cta-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h3 class="mb-4">Ready to Transform Your Business?</h3>
+                <p class="lead mb-4">
+                    Join thousands of businesses that have already revolutionized their operations 
+                    with our AI-powered platform.
+                </p>
+                <a href="{% url 'main:signup' %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-rocket me-2"></i>Get Started Today
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
