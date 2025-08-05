@@ -1,5 +1,4 @@
-# AuthProject
-
+# Product Seller with AI support | JWT auth| django
 A modern Django web application with JWT authentication, featuring a beautiful responsive UI and REST API endpoints.
 
 ## Features
